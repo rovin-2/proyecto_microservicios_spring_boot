@@ -1,5 +1,6 @@
 package com.proyecto.spring.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,5 +22,11 @@ public class UploadFileService {
 			return file.getOriginalFilename();
 		}
 		return "default.jpg";
+	}
+	
+	public void eliminarImagen(String nombre) {
+		String ruta = "images//";
+		File file = new File(ruta+nombre);
+		file.delete();
 	}
 }
