@@ -40,6 +40,11 @@ public class HomeController {
 		return "usuario/productoHome";
 	}
 	
+	@GetMapping("/cart")
+	public String agregarCarrito() {
+		return "usuario/carrito";
+	}
+	
 	
 	
 	
