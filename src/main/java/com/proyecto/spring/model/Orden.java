@@ -19,26 +19,27 @@ public class Orden {
 	private Integer id;
 	private String numero;
 	private Date fechaCreacion;
-	private Date fechaRecibido;
+	private Date fechaRecibida;
+
 	private double total;
 
 	@ManyToOne
 	private Usuario usuario;
 
 	@OneToMany(mappedBy = "orden")
-	private List<DetalleOrden> detalleOrden;
+	private List<DetalleOrden> detalle;
 
 	public Orden() {
+
 	}
 
-	public Orden(Integer id, String numero, Date fechaCreacion, Date fechaRecibido, double total, Usuario usuario) {
+	public Orden(Integer id, String numero, Date fechaCreacion, Date fechaRecibida, double total) {
 		super();
 		this.id = id;
 		this.numero = numero;
 		this.fechaCreacion = fechaCreacion;
-		this.fechaRecibido = fechaRecibido;
+		this.fechaRecibida = fechaRecibida;
 		this.total = total;
-		this.usuario = usuario;
 	}
 
 	public Integer getId() {
@@ -65,12 +66,12 @@ public class Orden {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Date getFechaRecibido() {
-		return fechaRecibido;
+	public Date getFechaRecibida() {
+		return fechaRecibida;
 	}
 
-	public void setFechaRecibido(Date fechaRecibido) {
-		this.fechaRecibido = fechaRecibido;
+	public void setFechaRecibida(Date fechaRecibida) {
+		this.fechaRecibida = fechaRecibida;
 	}
 
 	public double getTotal() {
@@ -89,18 +90,18 @@ public class Orden {
 		this.usuario = usuario;
 	}
 
-	public List<DetalleOrden> getDetalleOrden() {
-		return detalleOrden;
+	public List<DetalleOrden> getDetalle() {
+		return detalle;
 	}
 
-	public void setDetalleOrden(List<DetalleOrden> detalleOrden) {
-		this.detalleOrden = detalleOrden;
+	public void setDetalle(List<DetalleOrden> detalle) {
+		this.detalle = detalle;
 	}
 
 	@Override
 	public String toString() {
-		return "Orden [id=" + id + ", numero=" + numero + ", fechaCreacion=" + fechaCreacion + ", fechaRecibido="
-				+ fechaRecibido + ", total=" + total + "]";
+		return "Orden [id=" + id + ", numero=" + numero + ", fechaCreacion=" + fechaCreacion + ", fechaRecibida="
+				+ fechaRecibida + ", total=" + total + "]";
 	}
 
 }
