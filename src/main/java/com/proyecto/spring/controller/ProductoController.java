@@ -89,6 +89,7 @@ public class ProductoController {
 			String nombreImagen = uploadFileService.guardarImagen(file);
 			producto.setImagen(nombreImagen);
 		}
+		producto.setUsuario(p.getUsuario());
 		productoService.update(producto);
 		return "redirect:/productos";
 	}
