@@ -3,15 +3,14 @@
 
 <head>
 
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-<title>Spring eCommerce</title>
+	<title>Spring eCommerce</title>
 
-<!-- Bootstrap core CSS -->
+	<!-- Bootstrap core CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
@@ -22,10 +21,9 @@
 <body>
 
 	<!-- Navigation -->
-	<div th:include="usuario/template_usuario.html::header">	
-	</div>
-	
-	<div th:include="usuario/template_usuario.html::header-user"> </div>
+	<div th:include="usuario/template_usuario.html::header" th:if="${sesion==null}"></div>
+
+	<div th:include="usuario/template_usuario.html::header-user" th:unless="${sesion==null}"> </div>
 
 	<!-- Page Content -->
 	<div class="container">
@@ -60,7 +58,8 @@
 									<td th:text="${dorden.precio}"></td>
 									<td th:text="${dorden.cantidad}"></td>
 									<td th:text="${dorden.total}"></td>
-									<td><a th:href="@{/delete/cart/{id}   (id=${dorden.producto.id}) }" class="btn btn-danger">Quitar</a></td>
+									<td><a th:href="@{/delete/cart/{id}   (id=${dorden.producto.id}) }"
+											class="btn btn-danger">Quitar</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -70,7 +69,9 @@
 						<h2 class="card-title">SUBTOTAL</h2>
 
 						<ul class="list-group">
-							<li class="list-group-item"><h5 th:text="${orden.total}"></h5></li>
+							<li class="list-group-item">
+								<h5 th:text="${orden.total}"></h5>
+							</li>
 							<a th:href="@{/order}" class="btn btn-dark">Ver Orden</a>
 						</ul>
 					</div>
