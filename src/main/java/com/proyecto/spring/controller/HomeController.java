@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -49,7 +49,7 @@ public class HomeController {
 
 	@GetMapping("")
 	public String home(Model model) {
-		model.addAttribute("producto", productoService.findAll());
+		model.addAttribute("productos", productoService.findAll());
 		return "usuario/home";
 	}
 
@@ -64,8 +64,9 @@ public class HomeController {
 		return "usuario/productoHome";
 	}
 
-	@GetMapping("/cart")
+	@PostMapping("/cart")
 	public String agregarCarrito(@RequestParam Integer id, @RequestParam Integer cantidad, Model model) {
+		
 		DetalleOrden detalleOrden = new DetalleOrden();
 		Producto producto = new Producto();
 
@@ -131,7 +132,7 @@ public class HomeController {
 		return "usuario/carrito";
 	}
 
-	@GetMapping("/orden")
+	@GetMapping("/order")
 	public String orden(Model model) {
 
 		Usuario usuario = iUsuarioService.findById(1).get();
@@ -140,7 +141,7 @@ public class HomeController {
 		model.addAttribute("orden", orden);
 		model.addAttribute("usuario", usuario);
 
-		return "resumen/resumenOrden";
+		return "usuario/resumenOrden";
 	}
 
 	// Guardar la orden

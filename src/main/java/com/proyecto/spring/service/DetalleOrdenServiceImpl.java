@@ -4,17 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.spring.model.DetalleOrden;
+import com.proyecto.spring.repository.IDetalleOrdenRepository;
 
 @Service
 public class DetalleOrdenServiceImpl implements IDetalleOrdenService {
 
 	
 	@Autowired
-	private IDetalleOrdenService iDetalleOrdenService;
+	private IDetalleOrdenRepository iDetalleOrdenRepository;
 	
 	@Override
 	public DetalleOrden save(DetalleOrden detalleOrden) {
-		return iDetalleOrdenService.save(detalleOrden);
+		return iDetalleOrdenRepository.save(detalleOrden);
 	}
 
 }

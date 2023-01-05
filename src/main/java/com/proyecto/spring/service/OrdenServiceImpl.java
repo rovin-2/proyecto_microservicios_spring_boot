@@ -7,21 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.spring.model.Orden;
+import com.proyecto.spring.repository.IOrdenRepository;
 
 @Service
 public class OrdenServiceImpl implements IOrdenService {
 
 	@Autowired
-	private IOrdenService iOrdenService;
+	private IOrdenRepository iOrdenRepository;
 
 	@Override
 	public Orden save(Orden orden) {
-		return iOrdenService.save(orden);
+		return iOrdenRepository.save(orden);
 	}
 
 	@Override
 	public List<Orden> findAll() {
-		return iOrdenService.findAll();
+		return iOrdenRepository.findAll();
 	}
 
 	public String generarNumeroOrden() {
