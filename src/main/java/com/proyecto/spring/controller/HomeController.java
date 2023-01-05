@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,9 @@ public class HomeController {
 	Orden orden = new Orden();
 
 	@GetMapping("")
-	public String home(Model model) {
+	public String home(Model model, HttpSession session) {
+		log.info("Sesion del usuario", session.getAttribute("idUsuario"));
+
 		model.addAttribute("productos", productoService.findAll());
 		return "usuario/home";
 	}
@@ -66,7 +70,7 @@ public class HomeController {
 
 	@PostMapping("/cart")
 	public String agregarCarrito(@RequestParam Integer id, @RequestParam Integer cantidad, Model model) {
-		
+
 		DetalleOrden detalleOrden = new DetalleOrden();
 		Producto producto = new Producto();
 
@@ -133,9 +137,10 @@ public class HomeController {
 	}
 
 	@GetMapping("/order")
-	public String orden(Model model) {
+	public String orden(Model model, HttpSession session) {
 
-		Usuario usuario = iUsuarioService.findById(1).get();
+		Usuario usuario = iUsuarioService.findById(Integer.parseInt(session.getAttribute("idUsuario").toString()))
+				.get();
 
 		model.addAttribute("cart", detalles);
 		model.addAttribute("orden", orden);
@@ -146,13 +151,14 @@ public class HomeController {
 
 	// Guardar la orden
 	@GetMapping("/saveOrden")
-	public String saveOrden() {
+	public String saveOrden(HttpSession session) {
 		Date fechaCreacion = new Date();
 		orden.setFechaCreacion(fechaCreacion);
 		orden.setNumero(iOrdenService.generarNumeroOrden());
 
 		// Usuario
-		Usuario usuario = iUsuarioService.findById(1).get();
+		Usuario usuario = iUsuarioService.findById(Integer.parseInt(session.getAttribute("idUsuario").toString()))
+				.get();
 
 		orden.setUsuario(usuario);
 		iOrdenService.save(orden);
@@ -173,8 +179,7 @@ public class HomeController {
 	@GetMapping("/search")
 	public String buscarProducto(@RequestParam String nombre, Model model) {
 		log.info("Nombre del producto: {}", nombre);
-		List<Producto> producto = productoService.findAll()
-				.stream().filter(p -> p.getNombre().contains(nombre))
+		List<Producto> producto = productoService.findAll().stream().filter(p -> p.getNombre().contains(nombre))
 				.collect(Collectors.toList());
 		model.addAttribute("productos", producto);
 
