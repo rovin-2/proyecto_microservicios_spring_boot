@@ -1,5 +1,9 @@
 package com.proyecto.spring.controller;
 
+import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +45,45 @@ public class UsuarioController {
 		return "usuario/login";
 	}
 	
+	@PostMapping("/acceder")
+	public String acceso(Usuario usuario, HttpSession sesscion) {
+		log.info("Acceso: {}", usuario);
+		Optional<Usuario> user = iUsuarioService.findByEmail(usuario.getEmail());
+		//log.info("Usuario: {}", user.get());
+		
+		if(user.isPresent()) {
+			sesscion.setAttribute("idUsuario", user.get().getId());
+			if(user.get().getTipo() == "ADMIN") {
+				return "redirect:/administrador";
+			}else {
+				return"redirect:/";
+			}
+		}else {
+			log.info("Usuario no existe!!");
+		}
+		return"redirect:/";
+	}
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
+
