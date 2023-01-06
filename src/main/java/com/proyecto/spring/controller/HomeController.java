@@ -183,7 +183,7 @@ public class HomeController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/search")
+	@PostMapping("/search")
 	public String buscarProducto(@RequestParam String nombre, Model model) {
 		log.info("Nombre del producto: {}", nombre);
 		List<Producto> producto = productoService.findAll().stream().filter(p -> p.getNombre().contains(nombre))

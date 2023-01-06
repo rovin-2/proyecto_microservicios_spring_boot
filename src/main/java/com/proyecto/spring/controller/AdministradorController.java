@@ -54,7 +54,8 @@ public class AdministradorController {
 		log.info("Id del orden: {}", id);
 		Orden orden = iOrdenService.findById(id).get();
 		model.addAttribute("detalles", orden.getDetalle());
-		return "administrador/detalleOrden";
+		
+		return "administrador/detallesOrden";
 	}
 	
 	
