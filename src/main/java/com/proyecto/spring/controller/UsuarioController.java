@@ -31,53 +31,53 @@ public class UsuarioController {
 	private IUsuarioService iUsuarioService;
 	@Autowired
 	private IOrdenService iOrdenService;
-	
+
 	BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-	
-	//Url = /usuario/registro
+
+	// Url = /usuario/registro
 	@GetMapping("/registro")
 	public String createUsuario() {
 		return "usuario/registro";
 	}
-	
+
 	@PostMapping("/save")
 	public String saveUsuario(Usuario usuario) {
-		
+
 		log.info("Usuario registro: {}", usuario);
 		usuario.setTipo("USER");
 		usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
 		iUsuarioService.save(usuario);
 		return "usuario/login";
 	}
-	
+
 	@GetMapping("/login")
 	public String login() {
-		
+
 		return "usuario/login";
 	}
-	
-	@PostMapping("/acceder")
+
+	@GetMapping("/acceder")
 	public String acceso(Usuario usuario, HttpSession sesscion) {
 		log.info("Acceso: {}", usuario);
-		Optional<Usuario> user = iUsuarioService.findByEmail(usuario.getEmail());
-		//log.info("Usuario: {}", user.get());
-		
-		if(user.isPresent()) {
+		Optional<Usuario> user = iUsuarioService.findById(Integer.parseInt(sesscion.getAttribute("idUsuario").toString()));
+		// log.info("Usuario: {}", user.get());
+
+		if (user.isPresent()) {
 			sesscion.setAttribute("idUsuario", user.get().getId());
-			if(user.get().getTipo() == "ADMIN") {
+			if (user.get().getTipo() == "ADMIN") {
 				return "redirect:/administrador";
-			}else {
-				return"redirect:/";
+			} else {
+				return "redirect:/";
 			}
-		}else {
+		} else {
 			log.info("Usuario no existe!!");
 		}
-		return"redirect:/";
+		return "redirect:/";
 	}
-	
+
 	@GetMapping("/compras")
 	public String ObtenerCompras(Model model, HttpSession session) {
-		
+
 		model.addAttribute("sesion", session.getAttribute("idUsuario"));
 		Usuario usuario = iUsuarioService.findById(Integer.parseInt(session.getAttribute("idUsuario").toString()))
 				.get();
@@ -85,38 +85,22 @@ public class UsuarioController {
 		model.addAttribute("ordenes", ordenes);
 		return "usuario/compras";
 	}
-	
+
 	@GetMapping("detalle/{id}")
 	public String verDetalle(@PathVariable Integer id, HttpSession session, Model model) {
-		
+
 		log.info("Id de la orden: {}", id);
 		Optional<Orden> orden = iOrdenService.findById(id);
 		model.addAttribute("detalles", orden.get().getDetalle());
 		model.addAttribute("sesion", session.getAttribute("idUsuario"));
-		
+
 		return "usuario/detalleCompra";
 	}
-	
+
 	@GetMapping("/cerrar")
 	public String cerrarSesion(HttpSession session) {
 		session.removeAttribute("idUsuario");
 		return "redirect:/";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
 
+}
